@@ -73,4 +73,8 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
     
     }
+    
+    func goal {
+        counter += 1
+    }
 }
