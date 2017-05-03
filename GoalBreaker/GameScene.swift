@@ -19,6 +19,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var leftBlock2 = SKSpriteNode()
     var leftBlock3 = SKSpriteNode()
     var leftBlock4 = SKSpriteNode()
+    var redPaddle = SKSpriteNode()
+    var bluePaddle = SKSpriteNode()
     
     var counter = 0
     var label = SKLabelNode()
@@ -27,10 +29,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         label = SKLabelNode(text: "0")
-        label.fontSize = 100.0
+        label.fontSize = 150.0
         label.position = CGPoint(x: 0, y: -35)
         addChild(label)
         
+        ball = self.childNode(withName: "ball") as! SKSpriteNode
+        redPaddle = self.childNode(withName: "leftPlayer") as! SKSpriteNode
+        bluePaddle = self.childNode(withName: "rightPlayer") as! SKSpriteNode
+    
         let bottomLeft = CGPoint(x: frame.origin.x, y: frame.origin.y)
         let bottomRight = CGPoint(x: -frame.origin.x, y: frame.origin.y)
         let topLeft = CGPoint(x: frame.origin.x, y: -frame.origin.y)
@@ -56,6 +62,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         right.physicsBody = SKPhysicsBody(edgeFrom: topRight, to: bottomRight)
         addChild(right)
         
+//        bottom.physicsBody?.categoryBitMask = bottomCategory
+//        top.physicsBody?.categoryBitMask = topCategory
+//        right.physicsBody?.categoryBitMask = rightCategory
+//        left.physicsBody?.categoryBitMask = leftCategory
+        
 //        let alert = UIAlertController(title: "", message: "", preferredStyle: UIAlertControllerStyle.alert)
 //        let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
 //        alert.addAction(okayAction)
@@ -80,7 +91,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-    
+        if started {
+            ball.physicsBody?.applyImpulse(CGVector(dx: 200, dy: 200))
+            started = true
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
