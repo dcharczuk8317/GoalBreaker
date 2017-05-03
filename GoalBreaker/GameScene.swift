@@ -9,6 +9,8 @@
 import SpriteKit
 import GameplayKit
 
+var counter = 0
+
 class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
