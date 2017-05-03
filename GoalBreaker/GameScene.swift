@@ -14,7 +14,31 @@ var counter = 0
 class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
+        let bottomLeft = CGPoint(x: frame.origin.x, y: frame.origin.y)
+        let bottomRight = CGPoint(x: -frame.origin.x, y: frame.origin.y)
+        let topLeft = CGPoint(x: frame.origin.x, y: -frame.origin.y)
+        let topRight = CGPoint(x: -frame.origin.x, y: -frame.origin.y)
+
+        let bottom = SKNode()
+        bottom.name = "bottom"
+        bottom.physicsBody = SKPhysicsBody(edgeFrom: bottomLeft, to: bottomRight)
+        addChild(bottom)
         
+        let top = SKNode()
+        top.name = "top"
+        top.physicsBody = SKPhysicsBody(edgeFrom: topLeft, to: topRight)
+        addChild(top)
+        
+        let left = SKNode()
+        left.name = "left"
+        left.physicsBody = SKPhysicsBody(edgeFrom: topLeft, to: bottomLeft)
+        addChild(left)
+        
+        let right = SKNode()
+        right.name = "right"
+        right.physicsBody = SKPhysicsBody(edgeFrom: topRight, to: bottomRight)
+        addChild(right)
+
     }
     
     func touchDown(atPoint pos : CGPoint) {
