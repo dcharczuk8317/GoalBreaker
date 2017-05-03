@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     var ball = SKSpriteNode()
     var rightBlock1 = SKSpriteNode()
     var rightBlock2 = SKSpriteNode()
@@ -25,6 +25,12 @@ class GameScene: SKScene {
     var started = false
     
     override func didMove(to view: SKView) {
+        physicsWorld.contactDelegate = self
+        label = SKLabelNode(text: "0")
+        label.fontSize = 100.0
+        label.position = CGPoint(x: 0, y: -35)
+        addChild(label)
+        
         let bottomLeft = CGPoint(x: frame.origin.x, y: frame.origin.y)
         let bottomRight = CGPoint(x: -frame.origin.x, y: frame.origin.y)
         let topLeft = CGPoint(x: frame.origin.x, y: -frame.origin.y)
@@ -49,6 +55,11 @@ class GameScene: SKScene {
         right.name = "right"
         right.physicsBody = SKPhysicsBody(edgeFrom: topRight, to: bottomRight)
         addChild(right)
+        
+//        let alert = UIAlertController(title: "", message: "", preferredStyle: UIAlertControllerStyle.alert)
+//        let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+//        alert.addAction(okayAction)
+        
 
     }
     
@@ -85,7 +96,7 @@ class GameScene: SKScene {
     
     }
     
-    func goal {
+    func goal() {
         counter += 1
     }
 }
