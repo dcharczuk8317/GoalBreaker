@@ -9,9 +9,20 @@
 import SpriteKit
 import GameplayKit
 
-var counter = 0
-
 class GameScene: SKScene {
+    var ball = SKSpriteNode()
+    var rightBlock1 = SKSpriteNode()
+    var rightBlock2 = SKSpriteNode()
+    var rightBlock3 = SKSpriteNode()
+    var rightBlock4 = SKSpriteNode()
+    var leftBlock1 = SKSpriteNode()
+    var leftBlock2 = SKSpriteNode()
+    var leftBlock3 = SKSpriteNode()
+    var leftBlock4 = SKSpriteNode()
+    
+    var counter = 0
+    var label = SKLabelNode()
+    var started = false
     
     override func didMove(to view: SKView) {
         let bottomLeft = CGPoint(x: frame.origin.x, y: frame.origin.y)
