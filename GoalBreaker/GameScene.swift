@@ -85,7 +85,7 @@ class GameScene: SKScene {
     
     }
     
-    func goal {
+    func goal() {
         counter += 1
     }
 }
