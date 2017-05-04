@@ -75,9 +75,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        right.physicsBody?.categoryBitMask = rightCategory
 //        left.physicsBody?.categoryBitMask = leftCategory
         
-//        let alert = UIAlertController(title: "", message: "", preferredStyle: UIAlertControllerStyle.alert)
-//        let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
-//        alert.addAction(okayAction)
+
         
         let alert = UIAlertController(title: "Game Over", message: "Do you want to restart?", preferredStyle: UIAlertControllerStyle.alert)
         let YesAction = UIAlertAction(title: "Yes", style: .default, handler: nil)
