@@ -84,13 +84,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        right.physicsBody?.categoryBitMask = rightCategory
 //        left.physicsBody?.categoryBitMask = leftCategory
         
-//        let alert = UIAlertController(title: "", message: "", preferredStyle: UIAlertControllerStyle.alert)
-//        let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
-//        alert.addAction(okayAction)
+
         
-        let alert = UIAlertController(title: "Game Over", message: "Do you want to restart?", preferredStyle: UIAlertControllerStyle.alert)
-        let YesAction = UIAlertAction(title: "Yes", style: .default, handler: nil)
-        alert.addAction(YesAction)
         
         leftPlayer.physicsBody?.categoryBitMask = paddleCategory
         rightPlayer.physicsBody?.categoryBitMask = paddleCategory
@@ -146,7 +141,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func restartGame(){
-        if self.children.count == 4{
+        if counter == 5{
+            
+            let alert = UIAlertController(title: "Game Over", message: "Do you want to restart?", preferredStyle: UIAlertControllerStyle.alert)
+            let YesAction = UIAlertAction(title: "Yes", style: .default, handler: nil)
+            alert.addAction(YesAction)
+
             
         }
     }
