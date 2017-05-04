@@ -19,8 +19,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var leftBlock2 = SKSpriteNode()
     var leftBlock3 = SKSpriteNode()
     var leftBlock4 = SKSpriteNode()
-    var redPaddle = SKSpriteNode()
-    var bluePaddle = SKSpriteNode()
+    var leftPlayer = SKSpriteNode()
+    var rightPlayer = SKSpriteNode()
     
     var counter = 0
     var label = SKLabelNode()
@@ -34,8 +34,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(label)
         
         ball = self.childNode(withName: "ball") as! SKSpriteNode
-        redPaddle = self.childNode(withName: "leftPlayer") as! SKSpriteNode
-        bluePaddle = self.childNode(withName: "rightPlayer") as! SKSpriteNode
+        leftPlayer = self.childNode(withName: "leftPlayer") as! SKSpriteNode
+        rightPlayer = self.childNode(withName: "rightPlayer") as! SKSpriteNode
     
         let bottomLeft = CGPoint(x: frame.origin.x, y: frame.origin.y)
         let bottomRight = CGPoint(x: -frame.origin.x, y: frame.origin.y)
