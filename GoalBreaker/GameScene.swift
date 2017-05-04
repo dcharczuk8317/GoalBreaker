@@ -9,6 +9,14 @@
 import SpriteKit
 import GameplayKit
 
+let ballCategory: UInt32 = 0x1 << 0
+let bottomCategory: UInt32 = 0x1 << 1
+let topCategory: UInt32 = 0x1 << 2
+let leftCategory: UInt32 = 0x1 << 3
+let rightCategory: UInt32 = 0x1 << 4
+let paddleCategory: UInt32 = 0x1 << 5
+let blockCategory: UInt32 = 0x1 << 6
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var ball = SKSpriteNode()
     var rightBlock1 = SKSpriteNode()
@@ -75,7 +83,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let YesAction = UIAlertAction(title: "Yes", style: .default, handler: nil)
         alert.addAction(YesAction)
         
+        leftPlayer.physicsBody?.categoryBitMask = paddleCategory
+        rightPlayer.physicsBody?.categoryBitMask = paddleCategory
+        leftBlock1.physicsBody?.categoryBitMask = blockCategory
+        leftBlock2.physicsBody?.categoryBitMask = blockCategory
+        leftBlock3.physicsBody?.categoryBitMask = blockCategory
+        leftBlock4.physicsBody?.categoryBitMask = blockCategory
+        rightBlock1.physicsBody?.categoryBitMask = blockCategory
+        rightBlock2.physicsBody?.categoryBitMask = blockCategory
+        rightBlock3.physicsBody?.categoryBitMask = blockCategory
+        rightBlock4.physicsBody?.categoryBitMask = blockCategory
+        ball.physicsBody?.categoryBitMask = ballCategory
+        bottom.physicsBody?.categoryBitMask = bottomCategory
+        top.physicsBody?.categoryBitMask = topCategory
+        right.physicsBody?.categoryBitMask = rightCategory
+        left.physicsBody?.categoryBitMask = leftCategory
         
+        ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory
 
     }
     
