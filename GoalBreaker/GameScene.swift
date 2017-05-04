@@ -44,6 +44,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball = self.childNode(withName: "ball") as! SKSpriteNode
         leftPlayer = self.childNode(withName: "leftPlayer") as! SKSpriteNode
         rightPlayer = self.childNode(withName: "rightPlayer") as! SKSpriteNode
+        leftBlock1 = self.childNode(withName: "leftBlock1") as! SKSpriteNode
+        leftBlock2 = self.childNode(withName: "leftBlock2") as! SKSpriteNode
+        leftBlock3 = self.childNode(withName: "leftBlock3") as! SKSpriteNode
+        leftBlock4 = self.childNode(withName: "leftBlock4") as! SKSpriteNode
+        rightBlock1 = self.childNode(withName: "rightBlock1") as! SKSpriteNode
+        rightBlock2 = self.childNode(withName: "rightBlock2") as! SKSpriteNode
+        rightBlock3 = self.childNode(withName: "rightBlock3") as! SKSpriteNode
+        rightBlock4 = self.childNode(withName: "rightBlock4") as! SKSpriteNode
     
         let bottomLeft = CGPoint(x: frame.origin.x, y: frame.origin.y)
         let bottomRight = CGPoint(x: -frame.origin.x, y: frame.origin.y)
@@ -99,9 +107,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         right.physicsBody?.categoryBitMask = rightCategory
         left.physicsBody?.categoryBitMask = leftCategory
         
-        ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory
+        ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|blockCategory
 
     }
+    
+   
     
     func touchDown(atPoint pos : CGPoint) {
         
@@ -120,26 +130,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if started {
-            ball.physicsBody?.applyImpulse(CGVector(dx: 200, dy: 200))
-            started = true
+//        if started {
+//            ball.physicsBody?.applyImpulse(CGVector(dx: 200, dy: 200))
+//            started = true
+//        }
+    }
+    
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        if contact.bodyA.categoryBitMask == blockCategory{
+            counter += 1
+            label.text = "\(counter)"
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    
+    func restartGame(){
+        if self.children.count == 4{
+            
+        }
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-    }
-    
-    
-    override func update(_ currentTime: TimeInterval) {
-    
-    }
-    
-    func goal() {
-        counter += 1
-    }
+//    func goal() {
+//        counter += 1
+//    }
 }
