@@ -145,6 +145,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let alert = UIAlertController(title: "Game Over", message: "Do you want to restart?", preferredStyle: UIAlertControllerStyle.alert)
             let YesAction = UIAlertAction(title: "Yes", style: .default, handler: nil)
             alert.addAction(YesAction)
+            
+            
 
             
         }
