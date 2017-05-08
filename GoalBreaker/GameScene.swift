@@ -15,7 +15,8 @@ let topCategory: UInt32 = 0x1 << 2
 let leftCategory: UInt32 = 0x1 << 3
 let rightCategory: UInt32 = 0x1 << 4
 let paddleCategory: UInt32 = 0x1 << 5
-let blockCategory: UInt32 = 0x1 << 6
+let leftBlockCategory: UInt32 = 0x1 << 6
+let rightBlockCategory: UInt32 = 0x1 << 7
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var ball = SKSpriteNode()
@@ -30,16 +31,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var leftPlayer = SKSpriteNode()
     var rightPlayer = SKSpriteNode()
     
-    var counter = 0
-    var label = SKLabelNode()
+    var leftCounter = 0
+    var rightCounter = 0
+    var leftLabel = SKLabelNode()
+    var rightLabel = SKLabelNode()
     var started = false
     
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
-        label = SKLabelNode(text: "0")
-        label.fontSize = 150.0
-        label.position = CGPoint(x: 0, y: -35)
-        addChild(label)
+        leftLabel = SKLabelNode(text: "0")
+        leftLabel.fontSize = 150.0
+        leftLabel.position = CGPoint(x: 150, y: -35)
+        addChild(leftLabel)
+        rightLabel = SKLabelNode(text: "0")
+        rightLabel.fontSize = 150.0
+        rightLabel.position = CGPoint(x: -150, y: -35)
+        addChild(rightLabel)
         
         ball = self.childNode(withName: "ball") as! SKSpriteNode
         leftPlayer = self.childNode(withName: "leftPlayer") as! SKSpriteNode
@@ -88,21 +95,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         leftPlayer.physicsBody?.categoryBitMask = paddleCategory
         rightPlayer.physicsBody?.categoryBitMask = paddleCategory
-        leftBlock1.physicsBody?.categoryBitMask = blockCategory
-        leftBlock2.physicsBody?.categoryBitMask = blockCategory
-        leftBlock3.physicsBody?.categoryBitMask = blockCategory
-        leftBlock4.physicsBody?.categoryBitMask = blockCategory
-        rightBlock1.physicsBody?.categoryBitMask = blockCategory
-        rightBlock2.physicsBody?.categoryBitMask = blockCategory
-        rightBlock3.physicsBody?.categoryBitMask = blockCategory
-        rightBlock4.physicsBody?.categoryBitMask = blockCategory
+        leftBlock1.physicsBody?.categoryBitMask = leftBlockCategory
+        leftBlock2.physicsBody?.categoryBitMask = leftBlockCategory
+        leftBlock3.physicsBody?.categoryBitMask = leftBlockCategory
+        leftBlock4.physicsBody?.categoryBitMask = leftBlockCategory
+        rightBlock1.physicsBody?.categoryBitMask = rightBlockCategory
+        rightBlock2.physicsBody?.categoryBitMask = rightBlockCategory
+        rightBlock3.physicsBody?.categoryBitMask = rightBlockCategory
+        rightBlock4.physicsBody?.categoryBitMask = rightBlockCategory
         ball.physicsBody?.categoryBitMask = ballCategory
         bottom.physicsBody?.categoryBitMask = bottomCategory
         top.physicsBody?.categoryBitMask = topCategory
         right.physicsBody?.categoryBitMask = rightCategory
         left.physicsBody?.categoryBitMask = leftCategory
         
-        ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|blockCategory
+        ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory
 
     }
     
@@ -133,9 +140,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact: SKPhysicsContact) {
-        if contact.bodyA.categoryBitMask == blockCategory{
-            counter += 1
-            label.text = "\(counter)"
+        if contact.bodyA.categoryBitMask == leftBlockCategory{
+            leftCounter += 1
+            leftLabel.text = "\(leftCounter)"
+        }
+        if contact.bodyA.categoryBitMask == rightBlockCategory{
+            rightCounter += 1
+            rightLabel.text = "\(rightCounter)"
         }
     }
     
