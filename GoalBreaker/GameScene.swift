@@ -85,14 +85,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         right.physicsBody = SKPhysicsBody(edgeFrom: topRight, to: bottomRight)
         addChild(right)
         
-//        bottom.physicsBody?.categoryBitMask = bottomCategory
-//        top.physicsBody?.categoryBitMask = topCategory
-//        right.physicsBody?.categoryBitMask = rightCategory
-//        left.physicsBody?.categoryBitMask = leftCategory
-        
-
-        
-        
         leftPlayer.physicsBody?.categoryBitMask = paddleCategory
         rightPlayer.physicsBody?.categoryBitMask = paddleCategory
         leftBlock1.physicsBody?.categoryBitMask = leftBlockCategory
@@ -113,20 +105,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     }
     
-   
-    
-    func touchDown(atPoint pos : CGPoint) {
-        
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     
     }
@@ -137,7 +115,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            started = true
 //        }
     }
-    
     
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.categoryBitMask == leftBlockCategory{
@@ -162,8 +139,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             alert.addAction(RestartAction)
         }
     }
-    
-//    func goal() {
-//        counter += 1
-//    }
 }
