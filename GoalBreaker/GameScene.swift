@@ -31,17 +31,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var leftPlayer = SKSpriteNode()
     var rightPlayer = SKSpriteNode()
     
+    var timer = 0
     var leftCounter = 0
     var rightCounter = 0
     var leftLabel = SKLabelNode()
     var rightLabel = SKLabelNode()
     var started = false
     var selectedNodes:[UITouch:SKSpriteNode] = [:]
+    
 
     
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         self.view?.isMultipleTouchEnabled = true
+        
+        //var initialVelocity = ball.physicsBody?.applyImpulse(CGVector(dx: 700, dy: 700))
         
         leftLabel = SKLabelNode(text: "0")
         leftLabel.fontSize = 150.0
@@ -132,10 +136,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
-//        if started {
-//            ball.physicsBody?.applyImpulse(CGVector(dx: 200, dy: 200))
-//            started = true
-//        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -173,4 +173,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         return restartGameRight()
     }
+//    func speedUpGame{
+//        if leftCounter == 1{
+//            initialVelocity.CGVector.x += 100
+//        }
+//    }
 }
