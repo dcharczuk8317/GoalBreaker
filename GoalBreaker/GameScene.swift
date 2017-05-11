@@ -31,17 +31,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var leftPlayer = SKSpriteNode()
     var rightPlayer = SKSpriteNode()
     
+    var timer = 0
     var leftCounter = 0
     var rightCounter = 0
     var leftLabel = SKLabelNode()
     var rightLabel = SKLabelNode()
     var started = false
     var selectedNodes:[UITouch:SKSpriteNode] = [:]
+    
 
     
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         self.view?.isMultipleTouchEnabled = true
+        
+        //var initialVelocity = ball.physicsBody?.applyImpulse(CGVector(dx: 700, dy: 700))
         
         leftLabel = SKLabelNode(text: "0")
         leftLabel.fontSize = 150.0
@@ -135,10 +139,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
-//        if started {
-//            ball.physicsBody?.applyImpulse(CGVector(dx: 200, dy: 200))
-//            started = true
-//        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -160,17 +160,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func restartGame(){
+    func restartGameLeft(){
         if leftCounter == 5{
             let alert = UIAlertController(title: "Game Over", message: "Left Player Wins", preferredStyle: UIAlertControllerStyle.alert)
             let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
             alert.addAction(RestartAction)
         }
+        return restartGameLeft()
+    }
+        func restartGameRight(){
         if rightCounter == 5{
             let alert = UIAlertController(title: "Game Over", message: "Right Player Wins", preferredStyle: UIAlertControllerStyle.alert)
             let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
             alert.addAction(RestartAction)
         }
+        return restartGameRight()
     }
     
     func speedUpOne(){
