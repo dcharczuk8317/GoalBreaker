@@ -36,16 +36,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var leftLabel = SKLabelNode()
     var rightLabel = SKLabelNode()
     var started = false
+    var selectedNodes:[UITouch:SKSpriteNode] = [:]
+
     
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
+        self.view?.isMultipleTouchEnabled = true
+        
         leftLabel = SKLabelNode(text: "0")
         leftLabel.fontSize = 150.0
-        leftLabel.position = CGPoint(x: 150, y: -35)
+        leftLabel.position = CGPoint(x: 200, y: -35)
         addChild(leftLabel)
         rightLabel = SKLabelNode(text: "0")
         rightLabel.fontSize = 150.0
-        rightLabel.position = CGPoint(x: -150, y: -35)
+        rightLabel.position = CGPoint(x: -200, y: -35)
         addChild(rightLabel)
         
         ball = self.childNode(withName: "ball") as! SKSpriteNode
@@ -106,14 +110,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    
+        for touch in touches {
+            let location = touch.location(in:self)
+            if let node = self.atPoint(location) as? SKSpriteNode {
+                if (node.name == "leftPlayer") {
+                    selectedNodes[touch] = node
+                }
+                if (node.name == "rightPlayer") {
+                    selectedNodes[touch] = node
+                }
+            }
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            let location = touch.location(in:self)
+            // Update the position of the sprites
+            if let node = selectedNodes[touch] {
+                node.position = location
+                
+            }
+        }
 //        if started {
 //            ball.physicsBody?.applyImpulse(CGVector(dx: 200, dy: 200))
 //            started = true
 //        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            if selectedNodes[touch] != nil {
+                selectedNodes[touch] = nil
+            }
+        }
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -127,16 +157,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func restartGame(){
+    func restartGameLeft(){
         if leftCounter == 5{
             let alert = UIAlertController(title: "Game Over", message: "Left Player Wins", preferredStyle: UIAlertControllerStyle.alert)
             let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
             alert.addAction(RestartAction)
         }
+        return restartGameLeft()
+    }
+        func restartGameRight(){
         if rightCounter == 5{
             let alert = UIAlertController(title: "Game Over", message: "Right Player Wins", preferredStyle: UIAlertControllerStyle.alert)
             let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
             alert.addAction(RestartAction)
         }
+        return restartGameRight()
     }
 }
