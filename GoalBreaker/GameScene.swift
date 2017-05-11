@@ -157,16 +157,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func restartGame(){
+    func restartGameLeft(){
         if leftCounter == 5{
             let alert = UIAlertController(title: "Game Over", message: "Left Player Wins", preferredStyle: UIAlertControllerStyle.alert)
             let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
             alert.addAction(RestartAction)
         }
+        return restartGameLeft()
+    }
+        func restartGameRight(){
         if rightCounter == 5{
             let alert = UIAlertController(title: "Game Over", message: "Right Player Wins", preferredStyle: UIAlertControllerStyle.alert)
             let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
             alert.addAction(RestartAction)
         }
+        return restartGameRight()
     }
 }
