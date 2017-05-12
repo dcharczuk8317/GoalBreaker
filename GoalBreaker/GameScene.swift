@@ -40,7 +40,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var selectedNodes:[UITouch:SKSpriteNode] = [:]
     
 
-    
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         self.view?.isMultipleTouchEnabled = true
@@ -111,9 +110,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory
         
-        
-        
-
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -133,10 +129,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in:self)
-            // Update the position of the sprites
             if let node = selectedNodes[touch] {
                 node.position = location
-                
             }
         }
     }
@@ -177,39 +171,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return restartGameRight()
     }
     
-    func speedUpOne(){
-        if leftCounter == 1{
-            ball.physicsBody?.applyImpulse(CGVector.init(dx: 400, dy: 400))
-        }
-        else if leftCounter == 2{
-            ball.physicsBody?.applyImpulse(CGVector.init(dx: 600, dy: 600))
-        }
-        else if leftCounter == 3{
-            ball.physicsBody?.applyImpulse(CGVector.init(dx: 800, dy: 800))
-        }
-        else if leftCounter == 4{
-            ball.physicsBody?.applyImpulse(CGVector.init(dx: 1000, dy: 1000))
-        }
-        else if leftCounter == 5{
-            ball.physicsBody?.applyImpulse(CGVector.init(dx: 1200, dy: 1200))
-        }
-    }
-    
-    func speedUpTwo(){
-        if rightCounter == 1{
-            ball.physicsBody?.applyImpulse(CGVector.init(dx: 400, dy: 200))
-        }
-        else if rightCounter == 2{
-            ball.physicsBody?.applyImpulse(CGVector.init(dx: 600, dy: 600))
-        }
-        else if rightCounter == 3{
-            ball.physicsBody?.applyImpulse(CGVector.init(dx: 800, dy: 800))
-        }
-        else if leftCounter == 4{
-            ball.physicsBody?.applyImpulse(CGVector.init(dx: 1000, dy: 1000))
-        }
-        else if leftCounter == 5{
-            ball.physicsBody?.applyImpulse(CGVector.init(dx: 1200, dy: 1200))
-        }
-    }
 }
