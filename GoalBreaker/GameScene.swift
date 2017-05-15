@@ -109,7 +109,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         left.physicsBody?.categoryBitMask = leftCategory
         
         ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory
-        
+//        leftPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory
+//        rightPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -130,7 +131,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for touch in touches {
             let location = touch.location(in:self)
             if let node = selectedNodes[touch] {
-                node.position = location
+                let xPosition = node.position.x
+                let yPosition = location.y
+                node.position = CGPoint(x: xPosition, y: yPosition)
             }
         }
     }
