@@ -133,7 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let node = selectedNodes[touch] {
                 let xPosition = node.position.x
                 let yPosition = location.y
-                node.position = CGPoint(x: xPosition, y: yPosition)
+                node.position = CGPoint(x: xPosition, y: yPosition) 
             }
         }
     }
