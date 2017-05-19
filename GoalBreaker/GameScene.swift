@@ -48,7 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timerNode = SKLabelNode()
     var started = false
     var selectedNodes:[UITouch:SKSpriteNode] = [:]
-    var colorArray: Array = [UIColor.blue, UIColor.green, UIColor.yellow, UIColor.orange, UIColor.red, UIColor.purple]
+    var colorArray: Array = [UIColor.blue, UIColor.green, UIColor.yellow, UIColor.orange, UIColor.red, UIColor.purple, UIColor.magenta, UIColor.cyan]
 
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
@@ -106,14 +106,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         leftPlayer.physicsBody?.categoryBitMask = paddleCategory
         rightPlayer.physicsBody?.categoryBitMask = paddleCategory
-        leftBlock1.physicsBody?.categoryBitMask = leftBlockCategory
-        leftBlock2.physicsBody?.categoryBitMask = leftBlockCategory
-        leftBlock3.physicsBody?.categoryBitMask = leftBlockCategory
-        leftBlock4.physicsBody?.categoryBitMask = leftBlockCategory
-        rightBlock1.physicsBody?.categoryBitMask = rightBlockCategory
-        rightBlock2.physicsBody?.categoryBitMask = rightBlockCategory
-        rightBlock3.physicsBody?.categoryBitMask = rightBlockCategory
-        rightBlock4.physicsBody?.categoryBitMask = rightBlockCategory
+//        leftBlock1.physicsBody?.categoryBitMask = leftBlockCategory
+//        leftBlock2.physicsBody?.categoryBitMask = leftBlockCategory
+//        leftBlock3.physicsBody?.categoryBitMask = leftBlockCategory
+//        leftBlock4.physicsBody?.categoryBitMask = leftBlockCategory
+//        rightBlock1.physicsBody?.categoryBitMask = rightBlockCategory
+//        rightBlock2.physicsBody?.categoryBitMask = rightBlockCategory
+//        rightBlock3.physicsBody?.categoryBitMask = rightBlockCategory
+//        rightBlock4.physicsBody?.categoryBitMask = rightBlockCategory
         leftBlock1.physicsBody?.categoryBitMask = leftBlock1Category
         leftBlock2.physicsBody?.categoryBitMask = leftBlock2Category
         leftBlock3.physicsBody?.categoryBitMask = leftBlock3Category
@@ -128,7 +128,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         right.physicsBody?.categoryBitMask = rightCategory
         left.physicsBody?.categoryBitMask = leftCategory
         
-        ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory
+        ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory|leftBlock1Category|leftBlock2Category|leftBlock3Category|leftBlock4Category|rightBlock1Category|rightBlock2Category|rightBlock3Category|rightBlock4Category
         leftPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory
         rightPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory
     }
@@ -145,7 +145,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
-        timer += 1
+        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -193,11 +193,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             changePaddle(leftBlock4)
         }
         
-        if contact.bodyA.categoryBitMask == leftBlockCategory{
+        if contact.bodyA.categoryBitMask == leftBlock1Category{
             leftCounter += 1
             leftLabel.text = "\(leftCounter)"
         }
-        if contact.bodyA.categoryBitMask == rightBlockCategory{
+        if contact.bodyA.categoryBitMask == leftBlock2Category{
+            leftCounter += 1
+            leftLabel.text = "\(leftCounter)"
+        }
+        if contact.bodyA.categoryBitMask == leftBlock3Category{
+            leftCounter += 1
+            leftLabel.text = "\(leftCounter)"
+        }
+        if contact.bodyA.categoryBitMask == leftBlock4Category{
+            leftCounter += 1
+            leftLabel.text = "\(leftCounter)"
+        }
+        if contact.bodyA.categoryBitMask == rightBlock1Category{
+            rightCounter += 1
+            rightLabel.text = "\(rightCounter)"
+        }
+        if contact.bodyA.categoryBitMask == rightBlock2Category{
+            rightCounter += 1
+            rightLabel.text = "\(rightCounter)"
+        }
+        if contact.bodyA.categoryBitMask == rightBlock3Category{
+            rightCounter += 1
+            rightLabel.text = "\(rightCounter)"
+        }
+        if contact.bodyA.categoryBitMask == rightBlock4Category{
             rightCounter += 1
             rightLabel.text = "\(rightCounter)"
         }
@@ -221,7 +245,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func timerIncrease(){
-        
+        timer += 1
+        timerNode.text = "0:0\(timer)"
+        if timer >= 10
+        {
+            timerNode.text = "0:\(timer)"
+        }
+        return timerIncrease()
     }
     
     func changePaddle(_ node: SKSpriteNode){
