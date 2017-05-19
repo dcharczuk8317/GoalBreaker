@@ -18,6 +18,15 @@ let paddleCategory: UInt32 = 0x1 << 5
 let leftBlockCategory: UInt32 = 0x1 << 6
 let rightBlockCategory: UInt32 = 0x1 << 7
 
+let leftBlock1Category: UInt32 = 0x1 << 8
+let leftBlock2Category: UInt32 = 0x1 << 9
+let leftBlock3Category: UInt32 = 0x1 << 10
+let leftBlock4Category: UInt32 = 0x1 << 11
+let rightBlock1Category: UInt32 = 0x1 << 12
+let rightBlock2Category: UInt32 = 0x1 << 13
+let rightBlock3Category: UInt32 = 0x1 << 14
+let rightBlock4Category: UInt32 = 0x1 << 15
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var ball = SKSpriteNode()
     var rightBlock1 = SKSpriteNode()
@@ -36,15 +45,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var rightCounter = 0
     var leftLabel = SKLabelNode()
     var rightLabel = SKLabelNode()
+    var timerNode = SKLabelNode()
     var started = false
     var selectedNodes:[UITouch:SKSpriteNode] = [:]
-    
+    var colorArray: Array = [UIColor.blue, UIColor.green, UIColor.yellow, UIColor.orange, UIColor.red, UIColor.purple]
 
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         self.view?.isMultipleTouchEnabled = true
-        
-        //var initialVelocity = ball.physicsBody?.applyImpulse(CGVector(dx: 700, dy: 700))
         
         leftLabel = SKLabelNode(text: "0")
         leftLabel.fontSize = 150.0
@@ -54,6 +62,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rightLabel.fontSize = 150.0
         rightLabel.position = CGPoint(x: -200, y: -35)
         addChild(rightLabel)
+        timerNode = SKLabelNode(text: "0:0\(timer)")
+        timerNode.fontSize = 175.0
+        timerNode.position = CGPoint(x: 0, y: 400)
+        addChild(timerNode)
         
         ball = self.childNode(withName: "ball") as! SKSpriteNode
         leftPlayer = self.childNode(withName: "leftPlayer") as! SKSpriteNode
@@ -102,6 +114,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rightBlock2.physicsBody?.categoryBitMask = rightBlockCategory
         rightBlock3.physicsBody?.categoryBitMask = rightBlockCategory
         rightBlock4.physicsBody?.categoryBitMask = rightBlockCategory
+        leftBlock1.physicsBody?.categoryBitMask = leftBlock1Category
+        leftBlock2.physicsBody?.categoryBitMask = leftBlock2Category
+        leftBlock3.physicsBody?.categoryBitMask = leftBlock3Category
+        leftBlock4.physicsBody?.categoryBitMask = leftBlock4Category
+        rightBlock1.physicsBody?.categoryBitMask = rightBlock1Category
+        rightBlock2.physicsBody?.categoryBitMask = rightBlock2Category
+        rightBlock3.physicsBody?.categoryBitMask = rightBlock3Category
+        rightBlock4.physicsBody?.categoryBitMask = rightBlock4Category
         ball.physicsBody?.categoryBitMask = ballCategory
         bottom.physicsBody?.categoryBitMask = bottomCategory
         top.physicsBody?.categoryBitMask = topCategory
@@ -109,8 +129,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         left.physicsBody?.categoryBitMask = leftCategory
         
         ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory
-//        leftPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory
-//        rightPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory
+        leftPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory
+        rightPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -125,6 +145,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        timer += 1
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -133,7 +154,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let node = selectedNodes[touch] {
                 let xPosition = node.position.x
                 let yPosition = location.y
-                node.position = CGPoint(x: xPosition, y: yPosition)
+                node.position = CGPoint(x: xPosition, y: yPosition) 
             }
         }
     }
@@ -147,6 +168,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
+        if contact.bodyA.categoryBitMask == rightBlock1Category{
+            changePaddle(rightBlock1)
+        }
+        else if contact.bodyA.categoryBitMask == rightBlock2Category{
+            changePaddle(rightBlock2)
+        }
+        else if contact.bodyA.categoryBitMask == rightBlock3Category{
+            changePaddle(rightBlock3)
+        }
+        else if contact.bodyA.categoryBitMask == rightBlock4Category{
+            changePaddle(rightBlock4)
+        }
+        else if contact.bodyA.categoryBitMask == leftBlock1Category{
+            changePaddle(leftBlock1)
+        }
+        else if contact.bodyA.categoryBitMask == leftBlock2Category{
+            changePaddle(leftBlock2)
+        }
+        else if contact.bodyA.categoryBitMask == leftBlock3Category{
+            changePaddle(leftBlock3)
+        }
+        else if contact.bodyA.categoryBitMask == leftBlock4Category{
+            changePaddle(leftBlock4)
+        }
+        
         if contact.bodyA.categoryBitMask == leftBlockCategory{
             leftCounter += 1
             leftLabel.text = "\(leftCounter)"
@@ -158,20 +204,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func restartGameLeft(){
-        if leftCounter == 5{
             let alert = UIAlertController(title: "Game Over", message: "Left Player Wins", preferredStyle: UIAlertControllerStyle.alert)
             let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
             alert.addAction(RestartAction)
+        if leftCounter == 5{
+            return restartGameLeft()
         }
-        return restartGameLeft()
     }
-        func restartGameRight(){
-        if rightCounter == 5{
+    func restartGameRight(){
             let alert = UIAlertController(title: "Game Over", message: "Right Player Wins", preferredStyle: UIAlertControllerStyle.alert)
             let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
             alert.addAction(RestartAction)
+        if rightCounter == 5{
+            return restartGameRight()
         }
-        return restartGameRight()
     }
     
+    func timerIncrease(){
+        
+    }
+    
+    func changePaddle(_ node: SKSpriteNode){
+        let randomIndex = Int(arc4random_uniform(UInt32(colorArray.count)))
+        node.color = colorArray[randomIndex]
+    }
+
 }
