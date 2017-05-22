@@ -48,7 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timerNode = SKLabelNode()
     var started = false
     var selectedNodes:[UITouch:SKSpriteNode] = [:]
-    var colorArray: Array = [UIColor.blue, UIColor.green, UIColor.yellow, UIColor.orange, UIColor.red, UIColor.purple, UIColor.magenta, UIColor.cyan]
+    var colorArray: Array = [UIColor.blue, UIColor.green, UIColor.cyan, UIColor.red, UIColor.purple]
 
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
@@ -169,62 +169,76 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.categoryBitMask == rightBlock1Category{
-            changePaddle(rightBlock1)
+            colorPaddle(rightBlock1)
         }
         else if contact.bodyA.categoryBitMask == rightBlock2Category{
-            changePaddle(rightBlock2)
+            colorPaddle(rightBlock2)
         }
         else if contact.bodyA.categoryBitMask == rightBlock3Category{
-            changePaddle(rightBlock3)
+            colorPaddle(rightBlock3)
         }
         else if contact.bodyA.categoryBitMask == rightBlock4Category{
-            changePaddle(rightBlock4)
+            colorPaddle(rightBlock4)
         }
         else if contact.bodyA.categoryBitMask == leftBlock1Category{
-            changePaddle(leftBlock1)
+            colorPaddle(leftBlock1)
         }
         else if contact.bodyA.categoryBitMask == leftBlock2Category{
-            changePaddle(leftBlock2)
+            colorPaddle(leftBlock2)
         }
         else if contact.bodyA.categoryBitMask == leftBlock3Category{
-            changePaddle(leftBlock3)
+            colorPaddle(leftBlock3)
         }
         else if contact.bodyA.categoryBitMask == leftBlock4Category{
-            changePaddle(leftBlock4)
+            colorPaddle(leftBlock4)
         }
         
-        if contact.bodyA.categoryBitMask == leftBlock1Category{
-            leftCounter += 1
-            leftLabel.text = "\(leftCounter)"
-        }
-        if contact.bodyA.categoryBitMask == leftBlock2Category{
-            leftCounter += 1
-            leftLabel.text = "\(leftCounter)"
-        }
-        if contact.bodyA.categoryBitMask == leftBlock3Category{
-            leftCounter += 1
-            leftLabel.text = "\(leftCounter)"
-        }
-        if contact.bodyA.categoryBitMask == leftBlock4Category{
-            leftCounter += 1
-            leftLabel.text = "\(leftCounter)"
-        }
-        if contact.bodyA.categoryBitMask == rightBlock1Category{
+        if contact.bodyA.categoryBitMask == leftCategory{
             rightCounter += 1
             rightLabel.text = "\(rightCounter)"
         }
-        if contact.bodyA.categoryBitMask == rightBlock2Category{
-            rightCounter += 1
-            rightLabel.text = "\(rightCounter)"
+        if contact.bodyA.categoryBitMask == rightCategory{
+            leftCounter += 1
+            leftLabel.text = "\(leftCounter)"
         }
-        if contact.bodyA.categoryBitMask == rightBlock3Category{
-            rightCounter += 1
-            rightLabel.text = "\(rightCounter)"
-        }
-        if contact.bodyA.categoryBitMask == rightBlock4Category{
-            rightCounter += 1
-            rightLabel.text = "\(rightCounter)"
-        }
+        
+//        if counter == 10
+//        {
+//            ball.physicsBody?.velocity = CGFloat(1.1) * (ball.physicsBody?.velocity.dx)!
+//        }
+        
+//        if contact.bodyA.categoryBitMask == leftBlock1Category{
+//            leftCounter += 1
+//            leftLabel.text = "\(leftCounter)"
+//        }
+//        if contact.bodyA.categoryBitMask == leftBlock2Category{
+//            leftCounter += 1
+//            leftLabel.text = "\(leftCounter)"
+//        }
+//        if contact.bodyA.categoryBitMask == leftBlock3Category{
+//            leftCounter += 1
+//            leftLabel.text = "\(leftCounter)"
+//        }
+//        if contact.bodyA.categoryBitMask == leftBlock4Category{
+//            leftCounter += 1
+//            leftLabel.text = "\(leftCounter)"
+//        }
+//        if contact.bodyA.categoryBitMask == rightBlock1Category{
+//            rightCounter += 1
+//            rightLabel.text = "\(rightCounter)"
+//        }
+//        if contact.bodyA.categoryBitMask == rightBlock2Category{
+//            rightCounter += 1
+//            rightLabel.text = "\(rightCounter)"
+//        }
+//        if contact.bodyA.categoryBitMask == rightBlock3Category{
+//            rightCounter += 1
+//            rightLabel.text = "\(rightCounter)"
+//        }
+//        if contact.bodyA.categoryBitMask == rightBlock4Category{
+//            rightCounter += 1
+//            rightLabel.text = "\(rightCounter)"
+//        }
     }
     
     func restartGameLeft(){
@@ -244,19 +258,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func timerIncrease(){
+//    func timerIncrease(){
+//        
+//        timer = timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(ViewController.updateTimer)), userInfo: nil, repeats: true)
+//    }
+    
+    func colorPaddle(_ node: SKSpriteNode){
+        let randomIndex = Int(arc4random_uniform(UInt32(colorArray.count)))
+        node.color = colorArray[randomIndex]
+        if node.color == UIColor.red{
+            node.removeAllActions()
+            node.removeFromParent()
+        }
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
         timer += 1
         timerNode.text = "0:0\(timer)"
         if timer >= 10
         {
             timerNode.text = "0:\(timer)"
         }
-        return timerIncrease()
-    }
-    
-    func changePaddle(_ node: SKSpriteNode){
-        let randomIndex = Int(arc4random_uniform(UInt32(colorArray.count)))
-        node.color = colorArray[randomIndex]
+//        return timerIncrease()
+
     }
 
 }
