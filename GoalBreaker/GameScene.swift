@@ -40,7 +40,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var leftPlayer = SKSpriteNode()
     var rightPlayer = SKSpriteNode()
     
-    var timer = 0
+//    var timer = 0
+    var timer = Timer()
+    var seconds = 0
+    
     var leftCounter = 0
     var rightCounter = 0
     var leftLabel = SKLabelNode()
@@ -51,6 +54,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var colorArray: Array = [UIColor.blue, UIColor.green, UIColor.cyan, UIColor.red]
 
     override func didMove(to view: SKView) {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameScene.timerIncrease), userInfo: nil, repeats: true)
         physicsWorld.contactDelegate = self
         self.view?.isMultipleTouchEnabled = true
         
@@ -131,6 +135,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory|leftBlock1Category|leftBlock2Category|leftBlock3Category|leftBlock4Category|rightBlock1Category|rightBlock2Category|rightBlock3Category|rightBlock4Category
         leftPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory
         rightPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory
+        
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -257,10 +263,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-//    func timerIncrease(){
-//        
-//        timer = timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(ViewController.updateTimer)), userInfo: nil, repeats: true)
-//    }
+    func timerIncrease(){
+        seconds += 1
+        timerNode.text = timeString(time: TimeInterval(seconds))
+//        if timer >= 10
+//        {
+//            timerNode.text = "0:\(timer)"
+//        }
+    }
     
     func colorPaddle(_ node: SKSpriteNode){
         let randomIndex = Int(arc4random_uniform(UInt32(colorArray.count)))
@@ -272,14 +282,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        timer += 1
-        timerNode.text = "0:0\(timer)"
-        if timer >= 10
-        {
-            timerNode.text = "0:\(timer)"
-        }
-//        return timerIncrease()
+        
+    }
+    
+    func updateTimer(){
+//        seconds += 1
+//        timerNode.text = timeString(time: TimeInterval(seconds))
 
+//        timer += 1
+//        timerNode.text = "0:0\(timer)"
+//        if timer >= 10
+//        {
+//            timerNode.text = "0:\(timer)"
+//        }
+    }
+    
+    func timeString(time:TimeInterval) -> String {
+        let minutes = Int(time) / 60 % 60
+        let seconds = Int(time) % 60
+        return String(format:"%02i:%02i", minutes, seconds)
     }
 
 }
