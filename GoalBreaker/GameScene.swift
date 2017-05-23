@@ -48,7 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timerNode = SKLabelNode()
     var started = false
     var selectedNodes:[UITouch:SKSpriteNode] = [:]
-    var colorArray: Array = [UIColor.blue, UIColor.green, UIColor.cyan, UIColor.red, UIColor.purple]
+    var colorArray: Array = [UIColor.blue, UIColor.green, UIColor.cyan, UIColor.red]
 
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
@@ -145,7 +145,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
-        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
