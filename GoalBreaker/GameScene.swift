@@ -40,7 +40,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var leftPlayer = SKSpriteNode()
     var rightPlayer = SKSpriteNode()
     
-//    var timer = 0
     var timer = Timer()
     var seconds = 0
     
@@ -66,7 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rightLabel.fontSize = 150.0
         rightLabel.position = CGPoint(x: -200, y: -35)
         addChild(rightLabel)
-        timerNode = SKLabelNode(text: "0:0\(timer)")
+        timerNode = SKLabelNode(text: "0:00")
         timerNode.fontSize = 175.0
         timerNode.position = CGPoint(x: 0, y: 400)
         addChild(timerNode)
@@ -211,7 +210,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             removeAllActions()
             ball.removeFromParent()
             timer.invalidate()
-            
         }
         if rightCounter == 5{
             timerNode.text = "Right Player Wins"
@@ -230,24 +228,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         if seconds == 30
         {
-            ball.physicsBody?.velocity = CGVector(dx: ((ball.physicsBody?.velocity.dx)! * 1.3), dy: ((ball.physicsBody?.velocity.dy)! * 1.3))
+            ball.physicsBody?.velocity = CGVector(dx: ((ball.physicsBody?.velocity.dx)! * 1.3), dy: ((ball.physicsBody?.velocity.dy)! * 1.1))
         }
-        
-        
-
     }
     
-    func restartGameLeft(){
-            let alert = UIAlertController(title: "Game Over", message: "Left Player Wins", preferredStyle: UIAlertControllerStyle.alert)
-            let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
-            alert.addAction(RestartAction)
+    func timeString(time:TimeInterval) -> String {
+        let minutes = Int(time) / 60 % 60
+        let seconds = Int(time) % 60
+        return String(format:"%02i:%02i", minutes, seconds)
     }
-    func restartGameRight(){
-            let alert = UIAlertController(title: "Game Over", message: "Right Player Wins", preferredStyle: UIAlertControllerStyle.alert)
-            let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
-            alert.addAction(RestartAction)
-    }
-    
     func timerIncrease(){
         seconds += 1
         timerNode.text = timeString(time: TimeInterval(seconds))
@@ -261,12 +250,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             node.removeFromParent()
         }
     }
-    
-    func timeString(time:TimeInterval) -> String {
-        let minutes = Int(time) / 60 % 60
-        let seconds = Int(time) % 60
-        return String(format:"%02i:%02i", minutes, seconds)
-    }
-    
-
 }
