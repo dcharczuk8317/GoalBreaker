@@ -220,10 +220,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             timer.invalidate()
         }
         
-        if leftCounter == 10
+        if seconds == 10
         {
             ball.physicsBody?.velocity = CGVector(dx: ((ball.physicsBody?.velocity.dx)! * 1.1), dy: ((ball.physicsBody?.velocity.dy)! * 1.1))
         }
+        if seconds == 20
+        {
+            ball.physicsBody?.velocity = CGVector(dx: ((ball.physicsBody?.velocity.dx)! * 1.2), dy: ((ball.physicsBody?.velocity.dy)! * 1.2))
+        }
+        if seconds == 30
+        {
+            ball.physicsBody?.velocity = CGVector(dx: ((ball.physicsBody?.velocity.dx)! * 1.3), dy: ((ball.physicsBody?.velocity.dy)! * 1.3))
+        }
+        
         
 
     }
