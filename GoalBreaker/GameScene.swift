@@ -136,7 +136,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         leftPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory
         rightPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory
         
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -207,69 +206,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             leftLabel.text = "\(leftCounter)"
         }
         
-//        if counter == 10
-//        {
-//            ball.physicsBody?.velocity = CGFloat(1.1) * (ball.physicsBody?.velocity.dx)!
-//        }
+        if leftCounter == 5{
+            timerNode.text = "Left Player Wins"
+            removeAllActions()
+            ball.removeFromParent()
+            timer.invalidate()
+            
+        }
+        if rightCounter == 5{
+            timerNode.text = "Right Player Wins"
+            removeAllActions()
+            ball.removeFromParent()
+            timer.invalidate()
+        }
         
-//        if contact.bodyA.categoryBitMask == leftBlock1Category{
-//            leftCounter += 1
-//            leftLabel.text = "\(leftCounter)"
-//        }
-//        if contact.bodyA.categoryBitMask == leftBlock2Category{
-//            leftCounter += 1
-//            leftLabel.text = "\(leftCounter)"
-//        }
-//        if contact.bodyA.categoryBitMask == leftBlock3Category{
-//            leftCounter += 1
-//            leftLabel.text = "\(leftCounter)"
-//        }
-//        if contact.bodyA.categoryBitMask == leftBlock4Category{
-//            leftCounter += 1
-//            leftLabel.text = "\(leftCounter)"
-//        }
-//        if contact.bodyA.categoryBitMask == rightBlock1Category{
-//            rightCounter += 1
-//            rightLabel.text = "\(rightCounter)"
-//        }
-//        if contact.bodyA.categoryBitMask == rightBlock2Category{
-//            rightCounter += 1
-//            rightLabel.text = "\(rightCounter)"
-//        }
-//        if contact.bodyA.categoryBitMask == rightBlock3Category{
-//            rightCounter += 1
-//            rightLabel.text = "\(rightCounter)"
-//        }
-//        if contact.bodyA.categoryBitMask == rightBlock4Category{
-//            rightCounter += 1
-//            rightLabel.text = "\(rightCounter)"
-//        }
+        if leftCounter == 10
+        {
+            ball.physicsBody?.velocity = CGVector(dx: ((ball.physicsBody?.velocity.dx)! * 1.1), dy: ((ball.physicsBody?.velocity.dy)! * 1.1))
+        }
+        
+
     }
     
     func restartGameLeft(){
             let alert = UIAlertController(title: "Game Over", message: "Left Player Wins", preferredStyle: UIAlertControllerStyle.alert)
             let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
             alert.addAction(RestartAction)
-        if leftCounter == 5{
-            return restartGameLeft()
-        }
     }
     func restartGameRight(){
             let alert = UIAlertController(title: "Game Over", message: "Right Player Wins", preferredStyle: UIAlertControllerStyle.alert)
             let RestartAction = UIAlertAction(title: "Restart", style: .default, handler: nil)
             alert.addAction(RestartAction)
-        if rightCounter == 5{
-            return restartGameRight()
-        }
     }
     
     func timerIncrease(){
         seconds += 1
         timerNode.text = timeString(time: TimeInterval(seconds))
-//        if timer >= 10
-//        {
-//            timerNode.text = "0:\(timer)"
-//        }
     }
     
     func colorPaddle(_ node: SKSpriteNode){
@@ -281,26 +253,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    override func update(_ currentTime: TimeInterval) {
-        
-    }
-    
-    func updateTimer(){
-//        seconds += 1
-//        timerNode.text = timeString(time: TimeInterval(seconds))
-
-//        timer += 1
-//        timerNode.text = "0:0\(timer)"
-//        if timer >= 10
-//        {
-//            timerNode.text = "0:\(timer)"
-//        }
-    }
-    
     func timeString(time:TimeInterval) -> String {
         let minutes = Int(time) / 60 % 60
         let seconds = Int(time) % 60
         return String(format:"%02i:%02i", minutes, seconds)
     }
+    
 
 }
