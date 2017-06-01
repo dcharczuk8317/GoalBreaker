@@ -51,6 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var started = false
     var selectedNodes:[UITouch:SKSpriteNode] = [:]
     var colorArray: Array = [UIColor.blue, UIColor.green, UIColor.cyan, UIColor.red]
+    var vectorArray: Array = [CGVector(dx: 750, dy: 750), CGVector(dx: -750, dy: -750), CGVector(dx: -750, dy: 750), CGVector(dx: 750, dy: -750)]
 
     override func didMove(to view: SKView) {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameScene.timerIncrease), userInfo: nil, repeats: true)
@@ -59,14 +60,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         leftLabel = SKLabelNode(text: "0")
         leftLabel.fontSize = 150.0
-        leftLabel.position = CGPoint(x: 200, y: -35)
+        leftLabel.position = CGPoint(x: -400, y: -35)
         addChild(leftLabel)
         rightLabel = SKLabelNode(text: "0")
         rightLabel.fontSize = 150.0
-        rightLabel.position = CGPoint(x: -200, y: -35)
+        rightLabel.position = CGPoint(x: 400, y: -35)
         addChild(rightLabel)
-        timerNode = SKLabelNode(text: "0:00")
+        timerNode = SKLabelNode(text: "00:00")
         timerNode.fontSize = 175.0
+        //timerNode.fontName = "Courier New"
         timerNode.position = CGPoint(x: 0, y: 400)
         addChild(timerNode)
         
@@ -109,14 +111,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         leftPlayer.physicsBody?.categoryBitMask = paddleCategory
         rightPlayer.physicsBody?.categoryBitMask = paddleCategory
-//        leftBlock1.physicsBody?.categoryBitMask = leftBlockCategory
-//        leftBlock2.physicsBody?.categoryBitMask = leftBlockCategory
-//        leftBlock3.physicsBody?.categoryBitMask = leftBlockCategory
-//        leftBlock4.physicsBody?.categoryBitMask = leftBlockCategory
-//        rightBlock1.physicsBody?.categoryBitMask = rightBlockCategory
-//        rightBlock2.physicsBody?.categoryBitMask = rightBlockCategory
-//        rightBlock3.physicsBody?.categoryBitMask = rightBlockCategory
-//        rightBlock4.physicsBody?.categoryBitMask = rightBlockCategory
         leftBlock1.physicsBody?.categoryBitMask = leftBlock1Category
         leftBlock2.physicsBody?.categoryBitMask = leftBlock2Category
         leftBlock3.physicsBody?.categoryBitMask = leftBlock3Category
@@ -131,10 +125,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         right.physicsBody?.categoryBitMask = rightCategory
         left.physicsBody?.categoryBitMask = leftCategory
         
-        ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlockCategory|rightBlockCategory|leftBlock1Category|leftBlock2Category|leftBlock3Category|leftBlock4Category|rightBlock1Category|rightBlock2Category|rightBlock3Category|rightBlock4Category
-        leftPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory
-        rightPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory
-        
+        ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlock1Category|leftBlock2Category|leftBlock3Category|leftBlock4Category|rightBlock1Category|rightBlock2Category|rightBlock3Category|rightBlock4Category
+        leftPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory
+        rightPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -171,6 +164,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
+        let randomVectorIndex = Int(arc4random_uniform(UInt32(vectorArray.count)))
+        if seconds == 0 {
+            ball.physicsBody?.applyImpulse(vectorArray[randomVectorIndex])
+        }
+
         if contact.bodyA.categoryBitMask == rightBlock1Category{
             colorPaddle(rightBlock1)
         }
@@ -218,17 +216,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             timer.invalidate()
         }
         
+//        let randomVectorIndex = Int(arc4random_uniform(UInt32(vectorArray.count)))
+//        if seconds == 0 {
+//            ball.physicsBody?.applyImpulse(vectorArray[randomVectorIndex])
+//        }
+        
         if seconds == 10
         {
             ball.physicsBody?.velocity = CGVector(dx: ((ball.physicsBody?.velocity.dx)! * 1.1), dy: ((ball.physicsBody?.velocity.dy)! * 1.1))
         }
         if seconds == 20
         {
-            ball.physicsBody?.velocity = CGVector(dx: ((ball.physicsBody?.velocity.dx)! * 1.2), dy: ((ball.physicsBody?.velocity.dy)! * 1.2))
+            ball.physicsBody?.velocity = CGVector(dx: ((ball.physicsBody?.velocity.dx)! * 1.1), dy: ((ball.physicsBody?.velocity.dy)! * 1.1))
         }
         if seconds == 30
         {
-            ball.physicsBody?.velocity = CGVector(dx: ((ball.physicsBody?.velocity.dx)! * 1.3), dy: ((ball.physicsBody?.velocity.dy)! * 1.1))
+            ball.physicsBody?.velocity = CGVector(dx: ((ball.physicsBody?.velocity.dx)! * 1.1), dy: ((ball.physicsBody?.velocity.dy)! * 1.1))
         }
     }
     
