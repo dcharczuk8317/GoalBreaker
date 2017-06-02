@@ -51,7 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var started = false
     var selectedNodes:[UITouch:SKSpriteNode] = [:]
     var colorArray: Array = [UIColor.blue, UIColor.green, UIColor.cyan, UIColor.red]
-    var vectorArray: Array = [CGVector(dx: 750, dy: 750), CGVector(dx: -750, dy: -750), CGVector(dx: -750, dy: 750), CGVector(dx: 750, dy: -750)]
+    var vectorArray: Array = [CGVector(dx: 500, dy: 500), CGVector(dx: -500, dy: -500), CGVector(dx: -500, dy: 500), CGVector(dx: 500, dy: -500)]
 
     override func didMove(to view: SKView) {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameScene.timerIncrease), userInfo: nil, repeats: true)
@@ -128,6 +128,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory|paddleCategory|leftBlock1Category|leftBlock2Category|leftBlock3Category|leftBlock4Category|rightBlock1Category|rightBlock2Category|rightBlock3Category|rightBlock4Category
         leftPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory
         rightPlayer.physicsBody?.contactTestBitMask = bottomCategory|topCategory|leftCategory|rightCategory
+        
+        let randomVectorIndex = Int(arc4random_uniform(UInt32(vectorArray.count)))
+        if seconds == 0 {
+            ball.physicsBody?.applyImpulse(vectorArray[randomVectorIndex])
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -164,11 +169,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        let randomVectorIndex = Int(arc4random_uniform(UInt32(vectorArray.count)))
-        if seconds == 0 {
-            ball.physicsBody?.applyImpulse(vectorArray[randomVectorIndex])
-        }
-
         if contact.bodyA.categoryBitMask == rightBlock1Category{
             colorPaddle(rightBlock1)
         }
