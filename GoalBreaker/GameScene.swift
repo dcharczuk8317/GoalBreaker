@@ -41,7 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var rightPlayer = SKSpriteNode()
     
     var timer = Timer()
-    var seconds = 5
+    var seconds = 0
     
     var leftCounter = 0
     var rightCounter = 0
@@ -216,20 +216,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             timer.invalidate()
         }
         
-        if seconds == 180{
-            if leftCounter > rightCounter {
-                timerNode.text = "Left Player Wins"
-                removeAllActions()
-                ball.removeFromParent()
-                timer.invalidate()
-            }
-            if rightCounter > leftCounter {
-                timerNode.text = "Right Player Wins"
-                removeAllActions()
-                ball.removeFromParent()
-                timer.invalidate()
-            }
-        }
+//        if seconds == 180{
+//            if leftCounter > rightCounter {
+//                timerNode.text = "Left Player Wins"
+//                removeAllActions()
+//                ball.removeFromParent()
+//                timer.invalidate()
+//            }
+//            if rightCounter > leftCounter {
+//                timerNode.text = "Right Player Wins"
+//                removeAllActions()
+//                ball.removeFromParent()
+//                timer.invalidate()
+//            }
+//        }
         
 //        let randomVectorIndex = Int(arc4random_uniform(UInt32(vectorArray.count)))
 //        if seconds == 0 {
@@ -256,12 +256,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return String(format:"%02i:%02i", minutes, seconds)
     }
     func timerIncrease(){
-        seconds -= 1
-        timerNode.text = timeString(time: TimeInterval(seconds))
-        if seconds == 0 {
+//        seconds -= 1
+//        timerNode.text = timeString(time: TimeInterval(seconds))
+//        if seconds == 0 {
+//        seconds += 1
+//        timerNode.text = timeString(time: TimeInterval(seconds))
+//        }
         seconds += 1
         timerNode.text = timeString(time: TimeInterval(seconds))
-        }
     }
     
     func colorPaddle(_ node: SKSpriteNode){
