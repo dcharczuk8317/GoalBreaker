@@ -255,7 +255,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let seconds = Int(time) % 60
         return String(format:"%02i:%02i", minutes, seconds)
     }
-    func timerIncrease(){
+    @objc func timerIncrease(){
 //        seconds -= 1
 //        timerNode.text = timeString(time: TimeInterval(seconds))
 //        if seconds == 0 {
